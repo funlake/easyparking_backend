@@ -1,0 +1,11 @@
+{
+  "name": "easyparking",
+  "description": "Management of easyparking",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "*",
+    "mongojs" : "*",
+    "domain"  : "*"
+  }
+}
