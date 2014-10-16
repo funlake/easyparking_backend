@@ -5,6 +5,7 @@ var session = require('express-session');
 var path = require('path');
 var database = require("./Helpers/Db.js")();
 var config   = require("./config.js")()
+var multer = require('multer')
 app.use(express.static(path.join(__dirname, 'Public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(express.cookieParser());
@@ -37,7 +38,7 @@ app.use(function(req,res,next){
   if (msgtype) res.locals.message = '<div class="alert alert-dismissable alert-'+cls+'">' + msg + '</div>';
   next();
 })
-
+app.use(multer({ dest: __dirname+'/Public/uploads/'}))
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/Views');
 

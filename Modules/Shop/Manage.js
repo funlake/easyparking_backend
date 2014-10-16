@@ -21,6 +21,10 @@ module.exports = function(app,database,config){
 		},
 		Add : function(req,res){
 			res.render('Edit');
+		},
+		Save : function(req,res){
+			console.log(req.files)
+			res.render('Edit');
 		}
 	}
 }

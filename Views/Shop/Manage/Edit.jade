@@ -7,6 +7,18 @@ block content
 			.col-md-4
 				.pull-right
 					button.btn.btn-default(onclick='location.href="/Shop/Manage/List"') 取消
-					&nbsp;
-					button.btn.btn-primary(onclick='location.href="/Shop/Manage/Save"') 保存
-		form#admform.form-horizontal(action="/Shop/Manage/Save",method="Post")
+					span &nbsp;
+					button.btn.btn-primary(onclick='jQuery("#admform").submit()') 保存
+		form#admform.form-horizontal(action="/Shop/Manage/Save",method="post",enctype="multipart/form-data")
+			.form-group
+				label.col-lg-1.control-label(for="user") *
+				.col-lg-6
+					input#user.form-control(name="user",placeholder="标题")
+			.form-group
+				label.col-lg-1.control-label(for="points") *
+				.col-lg-2
+					input#points.form-control(name="points",placeholder="所需积分")
+			.form-group
+				label.col-lg-1.control-label(for="image") *
+				.col-lg-6
+					input#image.form-control(name="image",type="file")
