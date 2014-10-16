@@ -1,3 +1,4 @@
+//Home/Index controller
 module.exports = function(app){
 	return {
 		'Welcome' : function(req,res){

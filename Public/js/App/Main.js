@@ -1,15 +1,14 @@
 require.config({
-	catchError : true,
-    urlArgs:"bust="+(+(new Date())),
-    paths : {
-      'jquery' : "../Lib/jquery",
-      'bootstrap' : '../Lib/bootstrap.min'
-    }
+      catchError : true,
+      urlArgs:"bust="+(+(new Date())),
+      paths : {
+        'jquery' : "../Lib/jquery",
+        'bootstrap' : '../Lib/bootstrap.min'
+      }
 	//depends config
     ,shim : {
       'bootstrap' : ['jquery'],
-      'App' : ['bootstrap'],
-
+      'App' : ['bootstrap']
     }
     ,waitSeconds: 15
 });
