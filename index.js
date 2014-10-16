@@ -3,6 +3,7 @@ var app     = express();
 var bodyParser = require('body-parser')
 var session = require('express-session');
 var path = require('path');
+var database = require("./Helpers/Db.js")();
 app.use(express.static(path.join(__dirname, 'Public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
@@ -28,7 +29,7 @@ app.set('views', __dirname + '/Views');
 app.get("/:module/:controller/:action",function(req,res){
 	//res.end(req.params.module+"/"+req.params.controller+"/"+req.params.action)
 	app.set('views', __dirname + '/Views/'+req.params.module+"/"+req.params.controller);
-	var mvc = require("./Modules/"+req.params.module+"/"+req.params.controller)(app)
+	var mvc = require("./Modules/"+req.params.module+"/"+req.params.controller)(app,database)
 	mvc[req.params.action](req,res);
 })
 // app.get("/:module/:controller/:action/:params",function(req,res){

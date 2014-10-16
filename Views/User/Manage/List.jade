@@ -3,11 +3,19 @@ block content
 	.container
 		.row 
 			table.table.table-striped.table-bordered
+				tr
+					th #
+					th 唯一码
+					th 用户名
+					th 操作
+				- each row,key in data
 					tr
-						th #
-						th Id
-						th Name
-					tr
-						td 1
-						td 1asdf12323
-						td lake
+						td #{key+1}
+						td #{row._id}
+						td #{row.user}
+						td
+							span
+								a.btn.btn-primary.btn-sm(href='/User/Manage/Edit?id=#{row._id}') 编辑
+							span
+								a.btn.btn-danger.btn-sm(href='/User/Manage/Delete?id=#{row._id}') 删除
+
