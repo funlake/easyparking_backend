@@ -1,0 +1,12 @@
+extends ../../Layout/Main
+block content
+	.container
+		.row.well
+			.col-md-8
+				h4 添加商品
+			.col-md-4
+				.pull-right
+					button.btn.btn-default(onclick='location.href="/Shop/Manage/List"') 取消
+					&nbsp;
+					button.btn.btn-primary(onclick='location.href="/Shop/Manage/Save"') 保存
+		form#admform.form-horizontal(action="/Shop/Manage/Save",method="Post")

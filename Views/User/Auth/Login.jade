@@ -1,0 +1,27 @@
+extends ../../Layout/Main_nm
+block content
+	.content-body
+		.col-lg-3
+		.col-lg-6
+			.panel.panel-primary
+				.panel-heading 
+					h3.panel-title 登录
+				.panel-body
+					form#admform.form-horizontal(action='/User/Auth/Verify',method="post")
+						.form-group
+							.col-lg-1
+							.col-lg-10
+								input.form-control(name="user",placeholder="请输入登录用户名")
+							.col-lg-1
+						.form-group
+							.col-lg-1
+							.col-lg-10
+								input.form-control(name="pass",type="password",placeholder="请输入登录密码")
+							.col-lg-1
+						.form-group
+							.col-lg-5
+							.col-lg-2
+								input.btn.btn-primary(type="submit",value="登录")
+							.col-lg-5
+
+		.col-lg-3
