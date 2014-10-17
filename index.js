@@ -41,7 +41,9 @@ app.use(function(req,res,next){
 app.use(multer({ dest: __dirname+'/Public/uploads/'}))
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/Views');
-
+app.get("/",function(req,res){
+    res.redirect("/User/Auth/Login");
+})
 app.get("/:module/:controller/:action",function(req,res){
 	//res.end(req.params.module+"/"+req.params.controller+"/"+req.params.action)
   beforeRequest(req,res);

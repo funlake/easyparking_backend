@@ -1,5 +1,30 @@
 extends ../../Layout/Main
 block content
-	.container
-		.row.pull-right
-			button.btn.btn-primary(onclick='location.href="/Shop/Manage/Add"') 添加商品
+	.row.well
+		.col-md-8
+			h4 商品管理
+		.col-md-4
+			.pull-right
+				button.btn.btn-primary(onclick='location.href="/Shop/Manage/Add"') 添加商品
+	.row 
+		table.table.table-striped.table-bordered
+			tr
+				th(width=5) #
+				th(width='40%') 标题
+				th(width='10%') 所需积分
+				th(width='10%') 兑换详情
+				th 操作
+			each row,key in data
+				tr
+					td #{key+1}
+					td #{row.title}
+					td #{row.points}
+					td 
+						a(href='#') 查看
+					td
+						span
+							a.btn.btn-primary.btn-sm(href='/User/Manage/Edit?id=#{row._id}') 编辑
+						span
+							a.btn.btn-danger.btn-sm(href='/User/Manage/Delete?id=#{row._id}') 删除
+		.page 
+			!= pageNav

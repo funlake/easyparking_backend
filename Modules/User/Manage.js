@@ -13,7 +13,7 @@ module.exports = function(app,database,config){
 			var result = Db.users.find({}).skip(start).limit(config.DataLimit)
 			result.count(function(e,total){
 				result.toArray(function(error,docs){
-					res.render("List",{data :docs,pageNav : common.pageNav(total,req.query.p,config.DataLimit,req)})
+					res.render("List",{data :docs,pageNav : common.pageNav(total,req.query.p,config.DataLimit,req),req:req,res:res})
 				})
 			})
 

@@ -13,18 +13,36 @@ module.exports = function(app,database,config){
 			result.count(function(e,total){
 
 				result.toArray(function(error,result){
-					res.render("List",{data : result,pageNav : common.pageNav(total,req.query.p,config.DataLimit,req)})
+					res.render("List",{data : result,pageNav : common.pageNav(total,req.query.p,config.DataLimit,req),req:req,res:res})
 				})
 			})
 
 			
 		},
 		Add : function(req,res){
-			res.render('Edit');
+			res.render('Edit',{req:req,res:res});
 		},
 		Save : function(req,res){
-			console.log(req.files)
-			res.render('Edit');
+			var Db = database.connect();
+			console.log(req.files);
+			Db.shop.save({
+				title : req.body.title.trim(),
+				points : req.body.points,
+				img : '',
+				desc : req.body.desc	,
+				state : req.body.state
+			},function(err,store){
+				if(store != null){
+					req.session.msgtype = 3;
+					req.session.message = "商品添加成功!"
+					res.redirect("/Shop/Manage/List");
+				}
+				else{
+					req.session.msgtype = 1;
+					req.session.message = "商品添加失败!";
+					res.redirect("/Shop/Manage/Add");
+				}
+			})
 		}
 	}
 }
