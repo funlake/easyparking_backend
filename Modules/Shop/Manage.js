@@ -41,7 +41,7 @@ module.exports = function(app,database,config){
 		},
 		Save : function(req,res){
 			var Db = database.connect();
-			console.log(req.files)
+			//console.log(req.files)
 			var id = req.body.id || "",dataObject = {
 				title : req.body.title,
 				points : req.body.points,
@@ -52,35 +52,52 @@ module.exports = function(app,database,config){
 			if(typeof req.files.image != "undefined"){
 				dataObject.img =  req.files.image.name;
 			}
+
 			if(!id)
 			{//add
-				Db.shop.save(dataObject,function(err,store){
-					if(store != null){
-						req.session.msgtype = 3;
-						req.session.message = "商品添加成功!"
-						res.redirect("/Shop/Manage/List");
-					}
-					else{
-						req.session.msgtype = 1;
-						req.session.message = "商品添加失败!";
-						res.redirect("/Shop/Manage/Add");
-					}
-				})
+				if(dataObject.title == null || dataObject.points == null){
+					req.session.msgtype = 1;
+					req.session.message = "商品添加失败!标题或积分不能为空"
+					res.redirect("/Shop/Manage/Add");
+				}
+				else{
+					Db.shop.save(dataObject,function(err,store){
+						if(store != null){
+							req.session.msgtype = 3;
+							req.session.message = "商品添加成功!"
+							res.redirect("/Shop/Manage/List");
+						}
+						else{
+							req.session.msgtype = 1;
+							req.session.message = "商品添加失败!";
+							res.redirect("/Shop/Manage/Add");
+						}
+					})					
+				}
+
 			}
 			else{
-				Db.shop.update({_id:Db.ObjectId(id)},{
-					$set : dataObject
-				},function(err,store){
-					if(!err && store!=null){
-						req.session.msgtype = 3;
-						req.session.message = "商品更新成功!";
-					}
-					else{
-						req.session.msgtype = 1;
-						req.session.message = "商品更新失败!("+err+")";
-					}
-					res.redirect("/Shop/Manage/List");
-				})
+				if(dataObject.title == null || dataObject.points == null){
+					req.session.msgtype = 1;
+					req.session.message = "商品添加失败!标题或积分不能为空"
+					res.redirect("/Shop/Manage/Edit?id="+id);
+				}
+				else{
+					Db.shop.update({_id:Db.ObjectId(id)},{
+						$set : dataObject
+					},function(err,store){
+						if(!err && store!=null){
+							req.session.msgtype = 3;
+							req.session.message = "商品更新成功!";
+						}
+						else{
+							req.session.msgtype = 1;
+							req.session.message = "商品更新失败!("+err+")";
+						}
+						res.redirect("/Shop/Manage/List");
+					})					
+				}
+
 			}
 
 		},
