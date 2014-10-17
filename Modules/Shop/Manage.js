@@ -1,6 +1,14 @@
 //User/Manage controller
 module.exports = function(app,database,config){
 	var common = require("../../Helpers/Common.js")();
+	var shop_fields = {
+		_id 	: "",
+		title 	: "",
+		points  : "",
+		desc	: "",
+		img		: "",
+		state   : 0
+	}
 	return {
 		List : function(req,res){
 			//res.end("Welcome to easyparking!");
@@ -9,7 +17,7 @@ module.exports = function(app,database,config){
 				req.query.p = 1;
 			}
 			var start  = (req.query.p-1) * 1 * config.DataLimit;
-			var result = Db.shop.find({}).skip(start).limit(config.DataLimit)
+			var result = Db.shop.find({state:{$lt:2}}).sort({_id:-1}).skip(start).limit(config.DataLimit)
 			result.count(function(e,total){
 
 				result.toArray(function(error,result){
@@ -20,28 +28,79 @@ module.exports = function(app,database,config){
 			
 		},
 		Add : function(req,res){
-			res.render('Edit',{req:req,res:res});
+			res.render('Edit',{req:req,res:res,data:shop_fields,checks:['','checked']});
+		},
+		Edit : function(req,res){
+			var Db = database.connect();
+			Db.shop.findOne({_id:Db.ObjectId(req.query.id)},function(err,data){
+				if(data != null){
+					res.render('Edit',{req:req,res:res,data:data,checks:"hehe"})
+				}
+			})
+			
 		},
 		Save : function(req,res){
 			var Db = database.connect();
-			console.log(req.files);
-			Db.shop.save({
-				title : req.body.title.trim(),
+			console.log(req.files)
+			var id = req.body.id || "",dataObject = {
+				title : req.body.title,
 				points : req.body.points,
-				img : '',
-				desc : req.body.desc	,
-				state : req.body.state
-			},function(err,store){
-				if(store != null){
-					req.session.msgtype = 3;
-					req.session.message = "商品添加成功!"
+				//img : req.files.image.name || "",
+				desc : req.body.desc,
+				state : req.body.state*1
+			}
+			if(typeof req.files.image != "undefined"){
+				dataObject.img =  req.files.image.name;
+			}
+			if(!id)
+			{//add
+				Db.shop.save(dataObject,function(err,store){
+					if(store != null){
+						req.session.msgtype = 3;
+						req.session.message = "商品添加成功!"
+						res.redirect("/Shop/Manage/List");
+					}
+					else{
+						req.session.msgtype = 1;
+						req.session.message = "商品添加失败!";
+						res.redirect("/Shop/Manage/Add");
+					}
+				})
+			}
+			else{
+				Db.shop.update({_id:Db.ObjectId(id)},{
+					$set : dataObject
+				},function(err,store){
+					if(!err && store!=null){
+						req.session.msgtype = 3;
+						req.session.message = "商品更新成功!";
+					}
+					else{
+						req.session.msgtype = 1;
+						req.session.message = "商品更新失败!("+err+")";
+					}
 					res.redirect("/Shop/Manage/List");
+				})
+			}
+
+		},
+		Delete : function(req,res){
+			var Db = database.connect();
+			if(req.query.id == null){
+				req.session.msgtype = 1;
+				req.session.message = "请指定商品id进行删除!";
+				res.redirect("/Shop/Manage/List")
+			}
+			Db.shop.update({_id:Db.ObjectId(req.query.id)},{$set:{state:2}},function(err,status){
+				if(!err){
+					req.session.msgtype = 3;
+					req.session.message = "商品删除成功!";
 				}
 				else{
 					req.session.msgtype = 1;
-					req.session.message = "商品添加失败!";
-					res.redirect("/Shop/Manage/Add");
+					req.session.message = "商品删除失败!";
 				}
+				res.redirect("/Shop/Manage/List")
 			})
 		}
 	}
