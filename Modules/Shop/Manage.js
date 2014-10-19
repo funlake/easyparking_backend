@@ -28,13 +28,13 @@ module.exports = function(app,database,config){
 			
 		},
 		Add : function(req,res){
-			res.render('Edit',{req:req,res:res,data:shop_fields,checks:['','checked']});
+			res.render('Edit',{req:req,res:res,data:shop_fields,title:'添加商品'});
 		},
 		Edit : function(req,res){
 			var Db = database.connect();
 			Db.shop.findOne({_id:Db.ObjectId(req.query.id)},function(err,data){
 				if(data != null){
-					res.render('Edit',{req:req,res:res,data:data,checks:"hehe"})
+					res.render('Edit',{req:req,res:res,data:data,title:'编辑商品'})
 				}
 			})
 			

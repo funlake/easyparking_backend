@@ -1,5 +1,11 @@
 extends ../../Layout/Main
 block content
+	.row.well
+		.col-md-8
+			h4 用户管理
+		.col-md-4
+			.pull-right
+				button.btn.btn-primary(onclick='location.href="/User/Manage/Add"') 添加用户
 	.row 
 		table.table.table-striped.table-bordered
 			tr
@@ -20,8 +26,10 @@ block content
 					td #{row.city}
 					td
 						span
-							a.btn.btn-primary.btn-sm(href='/User/Manage/Edit?id=#{row._id}') 编辑
+							a(href='/User/Manage/Edit?id=#{row._id}')
+								i.glyphicon.glyphicon-pencil
 						span
-							a.btn.btn-danger.btn-sm(href='/User/Manage/Delete?id=#{row._id}') 删除
+							a.modal-remove(href='#',data-href='/User/Manage/Delete?id=#{row._id}',data-id="#{row._id}",data-toggle="modal" data-target="#modal-delete-cfm")
+								i.glyphicon.glyphicon-trash
 		.page 
 			!= pageNav

@@ -1,0 +1,37 @@
+extends ../../Layout/Main
+block content
+	.row.well
+		.col-md-8
+			h4 #{title}
+		.col-md-4
+			.pull-right
+				button.btn.btn-default(onclick='location.href="/User/Manage/List"') 取消
+				span &nbsp;
+				button.btn.btn-primary(onclick='jQuery("#admform").submit()') 保存
+	form#admform.form-horizontal(action="/Shop/Manage/Save",method="post",enctype="multipart/form-data")
+		.row
+			.col-lg-8
+				.form-group
+					label.col-lg-2.control-label(for="user") 用户名*
+					.col-lg-10
+						input#user.form-control(name="user",placeholder="输入标题",value="#{data.user}")
+				.form-group
+					label.col-lg-2.control-label(for="points") 积分*
+					.col-lg-4
+						input#points.form-control(name="points",placeholder="所需积分",value="#{data.points}")
+				.form-group
+					label.col-lg-2.control-label(for="city") 注册城区*
+					.col-lg-10
+						input#city.form-control(name="city",placeholder="填写正确的城区地址",value="#{data.city}")
+				.form-group
+					label.col-lg-2.control-label(for="phone") 电话
+					.col-lg-10
+						input#phone.form-control(name="phone",placeholder="填写电话号码",value="#{data.phone}")
+			.col-lg-4
+				.well
+					#gmap(data-lng="#{data.loc.latitude},#{data.loc.longitude}")
+					link(href="http://developer.amap.com/Public/css/demo.Default.css",rel="stylesheet")
+					script(src="http://webapi.amap.com/maps?v=1.3&key=3ab5709c4d030447be408818161bc1b6")
+		input#id(name="id",type="hidden",value="#{data._id}")
+		input#lat(name="lat",type="hidden",value="#{data.loc.latitude}")
+		input#lng(name="lng",type="hidden",value="#{data.loc.longitude}")
