@@ -19,7 +19,17 @@ module.exports = function(app,database,config){
 			
 		},
 		Add : function(req,res){
-			res.render("Edit",{req:req,res:res,title:'添加用户'})
+			res.render("Edit",{req:req,res:res,title:'添加用户',data:{
+				user : '',
+				points : 0,
+				city:'',
+				phone:'',
+				loc : {
+					longitude : '',
+					latitude : ''
+				},
+				_id : ''
+			}})
 		},
 		Edit : function(req,res){
 			var Db = database.connect();
@@ -48,6 +58,9 @@ module.exports = function(app,database,config){
 				}
 				res.redirect("/User/Manage/List")
 			})
+		},
+		Save : function(req,res){
+
 		}
 	}
 }
