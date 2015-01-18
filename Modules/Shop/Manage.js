@@ -1,6 +1,7 @@
 //User/Manage controller
 module.exports = function(app,database,config){
 	var common = require("../../Helpers/Common.js")();
+	var path   = require('path');
 	var shop_fields = {
 		_id 	: "",
 		title 	: "",
@@ -50,7 +51,18 @@ module.exports = function(app,database,config){
 				state : req.body.state*1
 			}
 			if(typeof req.files.image != "undefined"){
+				var im = require('imagemagick');
 				dataObject.img =  req.files.image.name;
+				dataObject.img_thumb = dataObject.img.replace(/(\.\w+)$/,'.thumb$1');
+				var uploadDir = path.dirname(req.files.image.path)
+				im.resize({
+				  srcPath: req.files.image.path,
+				  dstPath: uploadDir+'/'+dataObject.img_thumb,
+				  width:   150
+				}, function(err, stdout, stderr){
+				  //if (err) throw err;
+				  console.log(err);
+				});
 			}
 
 			if(!id)

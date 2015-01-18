@@ -60,7 +60,8 @@ module.exports = function(app,database,config){
 			})
 		},
 		Save : function(req,res){
-
+			console.log(req.body)
+			res.end('heheheh');
 		}
 	}
 }

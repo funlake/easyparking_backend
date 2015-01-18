@@ -3,6 +3,9 @@ define(['jquery'],function($){
 		List : function(){
 			//alert("i am list page")
 		},
+		Add : function(){
+			//this.Edit()
+		},
 		Edit : function(){
 			$(function(){
 				var point = $('#gmap').attr("data-lng"),ll = point.split(","),lat = parseFloat(ll[0]),lng = parseFloat(ll[1])
