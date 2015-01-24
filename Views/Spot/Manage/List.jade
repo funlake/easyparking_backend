@@ -13,6 +13,7 @@ block content
 				th(width='20%') 唯一码
 				th(width='20%') 出租人
 				th(width='30%') 地址
+				th(width='10%') 状态
 				th 操作
 			each row,key in data
 				tr
@@ -20,6 +21,7 @@ block content
 					td #{row._id}
 					td #{row.userinfo.user}
 					td #{row.address}(#{row.code})
+					td #{stauts(row.state)}
 					td
 						span
 							a(href='/Spot/Manage/Edit?id=#{row._id}')

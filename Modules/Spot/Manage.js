@@ -13,7 +13,7 @@ module.exports = function(app,database,config){
 			var result = Db.spot.find().sort({_id:-1}).skip(start).limit(config.DataLimit)
 			result.count(function(e,total){
 				result.toArray(function(error,result){
-					res.render("List",{data : result,pageNav : common.pageNav(total,req.query.p,config.DataLimit,req),req:req,res:res})
+					res.render("List",{data : result,stauts:common.spotState,pageNav : common.pageNav(total,req.query.p,config.DataLimit,req),req:req,res:res})
 				})
 			})
 		}
