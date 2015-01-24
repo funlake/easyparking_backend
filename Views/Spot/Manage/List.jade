@@ -1,0 +1,31 @@
+extends ../../Layout/Main
+block content
+	.row.well
+		.col-md-8
+			h4 车位管理
+		.col-md-4
+			.pull-right
+				button.btn.btn-primary(onclick='location.href="/User/Manage/Add"') 添加车位
+	.row 
+		table.table.table-striped.table-bordered
+			tr
+				th(width=5) #
+				th(width='20%') 唯一码
+				th(width='20%') 出租人
+				th(width='30%') 地址
+				th 操作
+			each row,key in data
+				tr
+					td #{key+1}
+					td #{row._id}
+					td #{row.userinfo.user}
+					td #{row.address}(#{row.code})
+					td
+						span
+							a(href='/Spot/Manage/Edit?id=#{row._id}')
+								i.glyphicon.glyphicon-pencil
+						span
+							a.modal-remove(href='#',data-href='/Spot/Manage/Delete?id=#{row._id}',data-id="#{row._id}",data-toggle="modal" data-target="#modal-delete-cfm")
+								i.glyphicon.glyphicon-trash
+		.page 
+			!= pageNav
