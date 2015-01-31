@@ -1,0 +1,30 @@
+extends ../../Layout/Main
+block content
+	.row.well
+		.col-md-8
+			h4 申请管理
+	.row 
+		table.table.table-striped.table-bordered
+			tr
+				th(width=5) #
+				th(width='30%') 地址
+				th(width='10%') 出租人
+				th(width='10%') 申请人
+				th(width='10%') 状态
+				th 操作
+			each row,key in data
+				tr
+					td #{key+1}
+					td #{row.spotinfo.address}(#{row.spotinfo.code})
+					td #{row.spotinfo.userinfo.user}
+					td #{row.userinfo.user}
+					td #{row.state}
+					td
+						span
+							a(href='/Shop/Manage/Edit?id=#{row._id}')
+								i.glyphicon.glyphicon-pencil
+						span
+							a.modal-remove(href='#',data-href='/Shop/Manage/Delete?id=#{row._id}',data-id="#{row._id}",data-toggle="modal" data-target="#modal-delete-cfm")
+								i.glyphicon.glyphicon-trash
+		.page 
+			!= pageNav
